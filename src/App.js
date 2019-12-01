@@ -1,26 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import PostList from './post/PostList'
+import CreatePost from './post/CreatePost'
+import UserBar from './user/UserBar'
 
-function App() {
+const user = 'Gustavo Saiani'
+const posts = [
+  {
+    title: 'React Hooks',
+    content: 'arst arst',
+    author: 'Gustavo'
+  },
+  {
+    title: 'React Hooks',
+    content: 'arst arst',
+    author: 'Gustavo'
+  },
+]
+
+export default function App () {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={{ padding: 8 }}>
+      <UserBar />
+      <br />
+      <CreatePost user={user} />
+      <br />
+      <hr />
+      <PostList posts={posts} />
     </div>
-  );
+  )
 }
-
-export default App;
