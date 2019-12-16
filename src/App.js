@@ -1,5 +1,5 @@
 import React, { useReducer, useEffect, useState } from 'react'
-import { ThemeContext } from './contexts'
+import { ThemeContext, StateContext } from './contexts'
 import ChangeTheme, { THEMES } from './ChangeTheme'
 import PostList from './post/PostList'
 import CreatePost from './post/CreatePost'
@@ -24,7 +24,7 @@ const defaultPosts = [
 export default function App ({projectName}) {
   const [ theme, setTheme ] = useState(THEMES[0])
   const [ state, dispatch ] = useReducer(appReducer, { user: '', posts: defaultPosts })
-  const {user, posts} = state
+  const {user} = state
 
   useEffect(() => {
     if (user) {
@@ -35,18 +35,20 @@ export default function App ({projectName}) {
   }, [projectName, user])
 
   return (
-    <ThemeContext.Provider value={theme}>
-      <div style={{ padding: 8 }}>
-        <Header text={projectName} />
-        <ChangeTheme theme={theme} setTheme={setTheme} />
-        <br />
-        <UserBar user={user} dispatch={dispatch} />
-        <br />
-        {user && <CreatePost user={user} posts={posts} dispatch={dispatch} />}
-        <br />
-        <hr />
-        <PostList posts={posts} />
-      </div>
-    </ThemeContext.Provider>
+    <StateContext.Provider value={{ state, dispatch }}>
+      <ThemeContext.Provider value={theme}>
+        <div style={{ padding: 8 }}>
+          <Header text={projectName} />
+          <ChangeTheme theme={theme} setTheme={setTheme} />
+          <br />
+          <UserBar />
+          <br />
+          {user && <CreatePost />}
+          <br />
+          <hr />
+          <PostList />
+        </div>
+      </ThemeContext.Provider>
+    </StateContext.Provider>
   )
 }
