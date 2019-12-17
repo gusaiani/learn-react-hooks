@@ -3,8 +3,19 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import { RequestProvider } from 'react-request-hook'
+import axios from 'axios'
 
-ReactDOM.render(<App projectName="React Hooks Blog" />, document.getElementById('root'));
+const axiosInstance = axios.create({
+  baseURL: 'http://localhost:3000/api/'
+})
+
+ReactDOM.render(
+  <RequestProvider value={axiosInstance}>
+    <App projectName="React Hooks Blog" />
+  </RequestProvider>,
+  document.getElementById('root')
+);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
