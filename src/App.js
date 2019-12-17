@@ -8,22 +8,9 @@ import Header from './Header'
 
 import appReducer from './reducers'
 
-const defaultPosts = [
-  {
-    title: 'React Hooks',
-    content: 'arst arst',
-    author: 'Gustavo'
-  },
-  {
-    title: 'React Hooks',
-    content: 'arst arst',
-    author: 'Gustavo'
-  },
-]
-
 export default function App ({projectName}) {
   const [ theme, setTheme ] = useState('')
-  const [ state, dispatch ] = useReducer(appReducer, { user: '', posts: defaultPosts })
+  const [ state, dispatch ] = useReducer(appReducer, { user: '', posts: [] })
   const {user} = state
 
   useEffect(() => {
@@ -33,6 +20,12 @@ export default function App ({projectName}) {
       document.title = projectName
     }
   }, [projectName, user])
+
+  useEffect(() => {
+    fetch('/api/posts')
+      .then(result => result.json())
+      .then(posts => dispatch({ type: 'FETCH_POSTS', posts }))
+  }, [])
 
   return (
     <StateContext.Provider value={{ state, dispatch }}>

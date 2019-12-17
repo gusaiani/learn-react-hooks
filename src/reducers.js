@@ -13,6 +13,8 @@ function userReducer (state, action) {
 function postsReducer (state, action) {
   const {title, content, author} = action
   switch (action.type) {
+    case 'FETCH_POSTS':
+      return action.posts
     case 'CREATE_POST':
       const newPost = {title, content, author}
       return [ newPost, ...state ]
