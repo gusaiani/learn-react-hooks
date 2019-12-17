@@ -1,6 +1,6 @@
 import React, { useReducer, useEffect, useState } from 'react'
 import { ThemeContext, StateContext } from './contexts'
-import ChangeTheme, { THEMES } from './ChangeTheme'
+import ChangeTheme from './ChangeTheme'
 import PostList from './post/PostList'
 import CreatePost from './post/CreatePost'
 import UserBar from './user/UserBar'
@@ -22,7 +22,7 @@ const defaultPosts = [
 ]
 
 export default function App ({projectName}) {
-  const [ theme, setTheme ] = useState(THEMES[0])
+  const [ theme, setTheme ] = useState('')
   const [ state, dispatch ] = useReducer(appReducer, { user: '', posts: defaultPosts })
   const {user} = state
 
