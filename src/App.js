@@ -1,11 +1,7 @@
 import React, { useReducer, useEffect, useState } from 'react'
-import { useResource } from 'react-request-hook'
 import { ThemeContext, StateContext } from './contexts'
-import ChangeTheme from './ChangeTheme'
-import PostList from './post/PostList'
-import CreatePost from './post/CreatePost'
-import UserBar from './user/UserBar'
-import Header from './Header'
+import HeaderBar from './pages/HeaderBar'
+import HomePage from './pages/HomePage'
 
 import appReducer from './reducers'
 
@@ -22,36 +18,14 @@ export default function App ({projectName}) {
     }
   }, [projectName, user])
 
-  const [posts, getPosts] = useResource(() => ({
-    url: '/posts',
-    method: 'get'
-  }))
-
-  useEffect(getPosts, [])
-
-  useEffect(() => {
-    if (posts && posts.error) {
-      dispatch({ type: 'POSTS_ERROR' })
-    }
-    if (posts && posts.data) {
-      dispatch({ type: 'FETCH_POSTS', posts: posts.data.reverse() })
-    }
-  }, [posts])
 
   return (
     <StateContext.Provider value={{ state, dispatch }}>
       <ThemeContext.Provider value={theme}>
         <div style={{ padding: 8 }}>
-          <Header text={projectName} />
-          <ChangeTheme theme={theme} setTheme={setTheme} />
-          <br />
-          <UserBar />
-          <br />
-          {user && <CreatePost />}
-          <br />
+          <HeaderBar setTheme={setTheme} projectName={projectName} />
           <hr />
-          {error && <b>{error}</b>}
-          <PostList />
+          <HomePage />
         </div>
       </ThemeContext.Provider>
     </StateContext.Provider>
