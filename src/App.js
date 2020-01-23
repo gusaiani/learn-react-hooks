@@ -5,6 +5,7 @@ import { ThemeContext, StateContext } from './contexts'
 import HeaderBar from './pages/HeaderBar'
 import HomePage from './pages/HomePage'
 import PostPage from './pages/PostPage'
+import FooterBar from './pages/FooterBar'
 
 import appReducer from './reducers'
 
@@ -38,6 +39,7 @@ export default function App ({projectName}) {
             <HeaderBar setTheme={setTheme} projectName={projectName} />
             <hr />
             <View />
+            <FooterBar />
           </div>
         </Router>
       </ThemeContext.Provider>

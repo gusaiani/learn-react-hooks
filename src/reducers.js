@@ -11,12 +11,12 @@ function userReducer (state, action) {
 }
 
 function postsReducer (state, action) {
-  const {title, content, author} = action
+  const {title, content, author, id} = action
   switch (action.type) {
     case 'FETCH_POSTS':
       return action.posts
     case 'CREATE_POST':
-      const newPost = {title, content, author}
+      const newPost = {title, content, author, id}
       return [ newPost, ...state ]
     default:
       return state
