@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useResource } from 'react-request-hook'
 import { useInput } from 'react-hookedup'
 import { useNavigation } from 'react-navi'
