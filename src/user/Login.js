@@ -1,12 +1,13 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { useResource } from 'react-request-hook'
+import { useInput } from 'react-hookedup'
 import { StateContext } from '../contexts'
 
 export default function Login () {
   const { dispatch } = useContext(StateContext)
-  const [ username, setUsername ] = useState('')
+  const { value: username, bindToInput: bindUsername } = useInput('')
   const [ loginFailed, setLoginFailed ] = useState(false)
-  const [ password, setPassword ] = useState('')
+  const { value: password, bindToInput: bindPassword } = useInput('')
 
   const [ user, login ] = useResource((username, password) => ({
     url: `/login/${encodeURI(username)}/${encodeURI(password)}`,
@@ -27,22 +28,14 @@ export default function Login () {
     }
   }, [user, dispatch])
 
-  function handleUsername (evt) {
-    setUsername(evt.target.value)
-  }
-
-  function handlePassword (evt) {
-    setPassword(evt.target.value)
-  }
-
   return (
     <form onSubmit={e => {e.preventDefault();login(username, password)}}>
       <label htmlFor="login-username">Username:</label>
       <input type="text"
         value={username}
-        onChange={handleUsername}
         name="login-username"
         id="login-username"
+        {...bindUsername}
       />
       <label htmlFor="login-password">Password:</label>
       <input
@@ -50,7 +43,7 @@ export default function Login () {
         name="login-password"
         id="login-password"
         value={password}
-        onChange={handlePassword}
+        {...bindPassword}
       />
       <input
         type="submit"

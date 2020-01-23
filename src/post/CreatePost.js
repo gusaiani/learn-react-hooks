@@ -1,13 +1,14 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { useResource } from 'react-request-hook'
+import { useInput } from 'react-hookedup'
 import { useNavigation } from 'react-navi'
 import { StateContext } from '../contexts'
 
 export default function CreatePost () {
   const { state, dispatch } = useContext(StateContext)
   const { user } = state
-  const [ title, setTitle ] = useState('')
-  const [ content, setContent ] = useState('')
+  const { value: title, bindToInput: bindTitle, clear: clearTitle } = useInput('')
+  const { value: content, bindToInput: bindContent, clear: clearContent } = useInput('')
 
   const [ post, createPost ] = useResource(({ title, content, author }) => ({
     url: '/posts',
@@ -24,20 +25,12 @@ export default function CreatePost () {
     }
   }, [dispatch, navigation, post])
 
-  function handleTitle (evt) {
-    setTitle(evt.target.value)
-  }
-
-  function handleContent (evt) {
-    setContent(evt.target.value)
-  }
-
   function handleCreate (evt) {
     evt.preventDefault()
 
     createPost({ title, content, author: user })
-    setTitle('')
-    setContent('')
+    clearTitle()
+    clearContent()
   }
 
   return (
@@ -50,12 +43,12 @@ export default function CreatePost () {
           name="create-title"
           id="create-title"
           value={title}
-          onChange={handleTitle}
+          {...bindTitle}
         />
       </div>
       <textarea
         value={content}
-        onChange={handleContent}
+        {...bindContent}
       />
       <input
         type="submit"

@@ -29,6 +29,12 @@
       "content": "Vamos testar",
       "author": "gugu",
       "id": "vBmeY4B"
+    },
+    {
+      "title": "Caramba",
+      "content": "Caracoles",
+      "author": "gugu",
+      "id": "aki8x-6"
     }
   ],
   "users": [
@@ -39,13 +45,13 @@
     },
     {
       "username": "gugu",
-      "password": "cacete",
-      "id": 2
-    },
-    {
-      "username": "gugu",
       "password": "gugu",
       "id": 3
+    },
+    {
+      "username": "jimmy",
+      "password": "jimmy",
+      "id": 4
     }
   ],
   "themes": [
