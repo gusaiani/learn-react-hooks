@@ -5,10 +5,11 @@ import UserBar from '../user/UserBar'
 import Header from '../Header'
 import ChangeTheme from '../ChangeTheme'
 
-import { ThemeContext, StateContext } from '../contexts'
+import { StateContext } from '../contexts'
+import useTheme from '../hooks/useTheme'
 
 export default function HeaderBar ({ setTheme, projectName }) {
-  const theme = useContext(ThemeContext)
+  const theme = useTheme()
 
   const { state } = useContext(StateContext)
   const { innerWidth } = useWindowSize()

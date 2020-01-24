@@ -21,7 +21,8 @@
     "dev": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "npx eslint src/"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -39,6 +40,7 @@
     ]
   },
   "devDependencies": {
+    "eslint-plugin-react-hooks": "^2.3.0",
     "navi": "^0.14.0",
     "react-navi": "^0.14.3"
   }
