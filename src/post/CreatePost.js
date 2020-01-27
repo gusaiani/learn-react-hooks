@@ -1,6 +1,8 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { useResource } from 'react-request-hook'
 import { useInput } from 'react-hookedup'
+import useUndo from 'use-undo'
+import { useDebouncedCallback } from 'use-debounce'
 import { useNavigation } from 'react-navi'
 import { StateContext } from '../contexts'
 
@@ -8,7 +10,26 @@ export default function CreatePost () {
   const { state, dispatch } = useContext(StateContext)
   const { user } = state
   const { value: title, bindToInput: bindTitle, clear: clearTitle } = useInput('')
-  const { value: content, bindToInput: bindContent, clear: clearContent } = useInput('')
+  const [ content, setInput ] = useState('')
+  const [ undoContent, {
+    set: setContent,
+    undo,
+    redo,
+    canUndo,
+    canRedo
+  } ] = useUndo('')
+
+  const [ setDebounce, cancelDebounce ] = useDebouncedCallback(
+    (value) => {
+      setContent(value)
+    },
+    200
+  )
+
+  useEffect(() => {
+    cancelDebounce()
+    setInput(undoContent.present)
+  }, [cancelDebounce, undoContent])
 
   const [ post, createPost ] = useResource(({ title, content, author }) => ({
     url: '/posts',
@@ -30,7 +51,12 @@ export default function CreatePost () {
 
     createPost({ title, content, author: user })
     clearTitle()
-    clearContent()
+  }
+
+  function handleContent (e) {
+    const { value } = e.target
+    setInput(value)
+    setDebounce(value)
   }
 
   return (
@@ -48,8 +74,10 @@ export default function CreatePost () {
       </div>
       <textarea
         value={content}
-        {...bindContent}
+      onChange={handleContent}
       />
+      <button type="button" onClick={undo} disabled={!canUndo}>Undo</button>
+      <button type="button" onClick={redo} disabled={!canRedo}>Redo</button>
       <input
         type="submit"
         value="Create"
