@@ -1,4 +1,4 @@
-import { useContext } from React;
+import { useContext } from 'react'
 import { StateContext } from '../contexts'
 
 export default function useUserState () {

@@ -3,7 +3,7 @@ import { Link } from 'react-navi'
 import useTheme from '../hooks/useTheme'
 
 function Post ({ id, title, content, author, short = false }) {
-  const { secondaryColor } = useTheme
+  const { secondaryColor } = useTheme()
 
   let processedContent = content
   if (short) {
