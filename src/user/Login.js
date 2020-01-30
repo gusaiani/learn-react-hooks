@@ -2,6 +2,21 @@ import React, { useState, useEffect } from 'react'
 import { useInput } from 'react-hookedup'
 import { useDispatch, useAPILogin } from '../hooks'
 
+function useLoginEffect(user, dispatch, setLoginFailed) {
+  useEffect(() => {
+    if (user?.data?.length > 0) {
+      setLoginFailed(false)
+      dispatch({ type: 'LOGIN', username: user.data[0].username })
+    } else {
+      setLoginFailed(true)
+    }
+
+    if (user?.error) {
+      setLoginFailed(true)
+    }
+  }, [dispatch, setLoginFailed, user])
+}
+
 export default function Login () {
   const dispatch = useDispatch()
   const { value: username, bindToInput: bindUsername } = useInput('')
@@ -10,19 +25,7 @@ export default function Login () {
 
   const [ user, login ] = useAPILogin()
 
-  useEffect(() => {
-    if (user && user.data) {
-      if (user.data.length > 0) {
-        setLoginFailed(false)
-        dispatch({ type: 'LOGIN', username: user.data[0].username })
-      } else {
-        setLoginFailed(true)
-      }
-    }
-    if (user && user.error) {
-      setLoginFailed(true)
-    }
-  }, [user, dispatch])
+  useLoginEffect(user, dispatch, setLoginFailed)
 
   return (
     <form onSubmit={e => {e.preventDefault();login(username, password)}}>
